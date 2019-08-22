@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'net.ltgt.apt' version '0.15'
+}
+
+group 'ru.tellary.backenum'
+version '0.1-SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+}
+
+task run(type:JavaExec) {
+    main = "tmp"
+    classpath = sourceSets.test.runtimeClasspath
+}
