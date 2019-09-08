@@ -10,7 +10,8 @@ public abstract class BackwardEnum<T extends Enum<T>> {
     private String name;
 
     private BackwardEnum () { }
-    
+
+    @SuppressWarnings("unchecked")
     protected BackwardEnum(T value) {
         // Check target enum has FUTURE
         Enum.valueOf(value.getClass(), FUTURE);
