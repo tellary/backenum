@@ -23,6 +23,7 @@ public class HandleBackenum extends JavacAnnotationHandler<Backenum>{
             AnnotationValues<Backenum> annotation,
             JCAnnotation ast,
             JavacNode annotationNode) {
+        System.out.println("Handling!");
         JavacNode enumClass = annotationNode.up();
         if (!isEnumType(enumClass))
             annotationNode.addError("@Backenum is only supported on an enum");
@@ -46,14 +47,14 @@ public class HandleBackenum extends JavacAnnotationHandler<Backenum>{
     // Copied from JavacNode.
     // The methods are only available in later lombok
     // versions with "Shadow ClassLoader"
-	private static boolean isEnumType(JavacNode self) {
+    private static boolean isEnumType(JavacNode self) {
         JCModifiers mods;
         JCTree node = self.get();
         if (node instanceof JCClassDecl)
             mods = ((JCClassDecl) node).getModifiers();
         else return false;
 
-		if (self.getKind() != Kind.TYPE) return false;
-		return mods != null && (Flags.ENUM & mods.flags) != 0;
-	}
+        if (self.getKind() != Kind.TYPE) return false;
+        return mods != null && (Flags.ENUM & mods.flags) != 0;
+    }
 }

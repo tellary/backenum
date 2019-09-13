@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+    id 'net.ltgt.apt' version '0.21'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    implementation project(':backenum')
+    annotationProcessor project(':backenum')
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+}

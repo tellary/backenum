@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id 'net.ltgt.apt' version '0.21'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+// See https://github.com/sympower/symbok/blob/master/build.gradle
+configurations {
+    lombok
+}
+
+def unpackedAndRenamedLombokDir = file("$buildDir/lombok")
+
+task unpackAndRenameLombok {
+    inputs.files configurations.lombok
+    outputs.dir unpackedAndRenamedLombokDir
+    doFirst {
+        mkdir unpackedAndRenamedLombokDir
+        delete unpackedAndRenamedLombokDir.listFiles()
+    }
+    doLast {
+        copy {
+            from zipTree(configurations.lombok.singleFile)
+            into unpackedAndRenamedLombokDir
+            include 'lombok/**/*'
+            rename "(.*)[.]SCL[.]lombok", '$1.class'
+        }
+    }
+}
+
+compileJava {
+    dependsOn unpackAndRenameLombok
+}
+
+dependencies {
+    implementation files("${System.properties['java.home']}/../lib/tools.jar")
+    implementation 'org.kohsuke.metainf-services:metainf-services:1.8'
+    implementation files(unpackedAndRenamedLombokDir)
+    lombok 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.kohsuke.metainf-services:metainf-services:1.8'
+}
+
+task run(type:JavaExec) {
+    main = "tmp"
+    classpath = sourceSets.test.runtimeClasspath
+}
+
+compileJava {
+    options.compilerArgs << '-Xlint:unchecked'
+}
