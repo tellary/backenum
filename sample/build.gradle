@@ -7,7 +7,11 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    implementation project(':backenum')
-    annotationProcessor project(':backenum')
+    implementation project(path: ':backenum', configuration: 'archives')
+    annotationProcessor project(path: ':backenum', configuration: 'archives')
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
+}
+
+tasks.withType(JavaCompile) {
+    options.fork = true
 }
